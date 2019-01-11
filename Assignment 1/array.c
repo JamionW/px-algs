@@ -54,16 +54,18 @@ double stdev(double* array, int size) {
 //  newvali = oldvali ∗ w + (oldvali−1 + oldvali+1)(1 − w)/2
 void smooth(double* array, int size, double w) {
   double temp[size];
-  printarray(array,size);
+
   //init the "inner" array
-  //temp[0] = array[0];
-  //temp[size] = array[size];
+  temp[0] = array[0];
+  temp[size - 1] = array[size - 1];
+
+  //...and then smooth the array as described above
   for (int i = 1; i < size - 1; i++) {
     temp[i] = array[i] * w + (array[i - 1] + array[i + 1]) * (1 - w)/2;
   }
 
-  printarray(temp, size);
-//  for (int i = 0; i < size; i++) {
-//    array[i] = temp[i];
-//  }
+  //finally, replace the elements of array with that of temp
+  for (int i = 0; i < size; i++) {
+    array[i] = temp[i];
+  }
 }

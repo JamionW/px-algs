@@ -10,10 +10,8 @@
 int main()
 {
         // constants
-        int ARRAYLENGTH = 5;
-        int NUMSMOOTH = 3;
-        double SMOOTHWEIGHT = 0.25;
-        double ARRAYSCALE = 10;
+        int ARRAYLENGTH, NUMSMOOTH;
+        double SMOOTHWEIGHT, ARRAYSCALE;
 
         //read input for the above
         printf("Enter the length of your array: \n");
