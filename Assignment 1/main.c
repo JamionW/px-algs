@@ -38,7 +38,7 @@ int main()
         printf("\n");
 
         // demonstration of stdev()
-        printf("The standard deviation of your array is: \n");
+        printf("The standard deviation of your array is:");
         printf("%f", stdev(d,ARRAYLENGTH));
         printf("\n");
 
@@ -52,6 +52,9 @@ int main()
           printf("\n");
           smooth(d,ARRAYLENGTH,SMOOTHWEIGHT);
           printarray(d,ARRAYLENGTH);
+          printf("Hey, cool! The standard deviation of your array after smoothing is: \n");
+          printf("%f", stdev(d,ARRAYLENGTH));
+          printf("\n");
         }
 
         printf("\n");
