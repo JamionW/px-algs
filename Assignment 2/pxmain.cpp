@@ -14,7 +14,7 @@
 int main(int argc, char *argv[]) {
 
   // test with a vector of 1’s
-  int size=7;
+  int size=12;
   std::vector<int> serialdata(size, 1);
   //print_vector(serialdata);
   double serialstart = omp_get_wtime();
