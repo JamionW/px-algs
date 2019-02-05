@@ -21,7 +21,10 @@ void serial_prefix_sum(std::vector<int>& data) {
 }
 
 void px_prefix_sum(std::vector<int>& data) {
-  #pragma omp parallel default(none) shared(data)
+  //init the nodetotal array
+  std::vector<int> nodetotal(omp_get_max_threads() - 1, 0);
+
+  #pragma omp parallel default(none) shared(data, nodetotal)
     {
       //distribution of the data across all threads
       int rank = omp_get_thread_num();
@@ -45,22 +48,25 @@ void px_prefix_sum(std::vector<int>& data) {
       int end = start + count;
 
       //debugging
-      printf("ON PARTITION %d !!!!\n count is %d\n start is %d\n end is %d\n rank is %d\n nt is %d\n mod is %d\n\n", omp_get_thread_num(), count, start, end, rank, nt, mod);
+      //printf("ON PARTITION %d !!!!\n count is %d\n start is %d\n end is %d\n rank is %d\n nt is %d\n mod is %d\n\n", omp_get_thread_num(), count, start, end, rank, nt, mod);
 
       //prefix sum within the local nodes
       for (int i = start + 1; i < end; i++)
       {
         data[i] = data[i] + data[i - 1];
+        nodetotal[rank] = data[i];
       }
 
       //synchronize the threads counting locally
       #pragma omp barrier
 
-      //create the offset
-      int offset = 0;
-      for (int i = 0; i < (rank + 1); i++)
+      //prefix sum the sum of each node
+      #pragma omp single
       {
-        offset = offset + data[i];
+        for (int i = 1; i < nt; i++)
+        {
+          nodetotal[i] = nodetotal[i] + nodetotal[i - 1];
+        }
       }
 
       //correct the local sums
@@ -68,8 +74,8 @@ void px_prefix_sum(std::vector<int>& data) {
       {
         for (int i = start; i < end; i++)
         {
-          printf("NODE %d, prev value of i was %d, now adding %d to that to make %d\n",rank,data[i],offset, data[i] +offset);
-          data[i] = data[i] + offset;
+          //printf("NODE %d, prev value of i was %d, now adding %d to that to make %d\n",rank,data[i],nodetotal[rank], data[i] + nodetotal[rank]);
+          data[i] = data[i] + nodetotal[rank - 1];
         }
       }
     }

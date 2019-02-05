@@ -13,8 +13,14 @@
 
 int main(int argc, char *argv[]) {
 
+  // constants
+  int ARRAYLENGTH;
+
   // test with a vector of 1’s
-  int size=12;
+  printf("Enter the length of your array: \n");
+  scanf("%i", &ARRAYLENGTH);
+  printf("\n...working...\n\n");
+  int size=ARRAYLENGTH;
   std::vector<int> serialdata(size, 1);
   //print_vector(serialdata);
   double serialstart = omp_get_wtime();
@@ -23,12 +29,12 @@ int main(int argc, char *argv[]) {
   //print_vector(serialdata);
 
   std::vector<int> pxdata(size, 1);
-  print_vector(pxdata);
+  //print_vector(pxdata);
   double pxstart = omp_get_wtime();
   px_prefix_sum(pxdata);
   double pxend = omp_get_wtime();
-  print_vector(pxdata);
+  //print_vector(pxdata);
 
-  printf("In serial, it took %lf to prefix sum %d elements.\n", (serialend-serialstart), (int)serialdata.size());
-  printf("In parallel, it took %lf to prefix sum %d elements on %d nodes.\n", (pxend-pxstart), (int)pxdata.size(), omp_get_max_threads());
+  printf("In serial, it took %lf milliseconds to prefix sum %d elements.\n", (serialend-serialstart), (int)serialdata.size());
+  printf("In parallel, it took %lf milliseconds to prefix sum %d elements on %d nodes.\n", (pxend-pxstart), (int)pxdata.size(), omp_get_max_threads());
 }
