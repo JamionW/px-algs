@@ -53,7 +53,7 @@ void px_prefix_sum(std::vector<int>& data) {
       //prefix sum within the local nodes
       for (int i = start + 1; i < end; i++)
       {
-        data[i] = data[i] + data[i - 1];
+        data[i] += data[i - 1];
         nodetotal[rank] = data[i];
       }
 
@@ -65,18 +65,15 @@ void px_prefix_sum(std::vector<int>& data) {
       {
         for (int i = 1; i < nt; i++)
         {
-          nodetotal[i] = nodetotal[i] + nodetotal[i - 1];
+          nodetotal[i] += nodetotal[i - 1];
         }
       }
 
       //correct the local sums
-      if (rank > 0)
+      for (int i = start; i < end; i++)
       {
-        for (int i = start; i < end; i++)
-        {
-          //printf("NODE %d, prev value of i was %d, now adding %d to that to make %d\n",rank,data[i],nodetotal[rank], data[i] + nodetotal[rank]);
-          data[i] = data[i] + nodetotal[rank - 1];
-        }
+        //printf("NODE %d, prev value of i was %d, now adding %d to that to make %d\n",rank,data[i],nodetotal[rank], data[i] + nodetotal[rank]);
+        data[i] += nodetotal[rank - 1];
       }
     }
 }

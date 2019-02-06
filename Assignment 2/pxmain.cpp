@@ -36,5 +36,5 @@ int main(int argc, char *argv[]) {
   //print_vector(pxdata);
 
   printf("In serial, it took %lf seconds to prefix sum %d elements.\n", (serialend-serialstart), (int)serialdata.size());
-  printf("In parallel, it took %lf seconds to prefix sum %d elements on %d nodes.\n", (pxend-pxstart), (int)pxdata.size(), omp_get_max_threads());
+  printf("In parallel, it took %lf seconds to prefix sum %d elements on %d nodes.\n\n", (pxend-pxstart), (int)pxdata.size(), omp_get_max_threads());
 }
