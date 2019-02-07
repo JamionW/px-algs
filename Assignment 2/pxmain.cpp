@@ -16,11 +16,18 @@ int main(int argc, char *argv[]) {
   // constants
   int ARRAYLENGTH;
 
-  // test with a vector of 1’s
+  // ask for an input vector
   printf("Enter the length of your array: \n");
   scanf("%i", &ARRAYLENGTH);
+
+  //aesthetics!
   printf("\n...working...\n\n");
+
+  //init an array of all 1's
   int size=ARRAYLENGTH;
+
+  //do the prefix sum in serial
+  //
   std::vector<int> serialdata(size, 1);
   //print_vector(serialdata);
   double serialstart = omp_get_wtime();
@@ -28,6 +35,8 @@ int main(int argc, char *argv[]) {
   double serialend = omp_get_wtime();
   //print_vector(serialdata);
 
+  //now, prefix sum in parallel
+  //
   std::vector<int> pxdata(size, 1);
   //print_vector(pxdata);
   double pxstart = omp_get_wtime();
@@ -35,6 +44,7 @@ int main(int argc, char *argv[]) {
   double pxend = omp_get_wtime();
   //print_vector(pxdata);
 
+  //calculate the time it took for both prefix sums
   printf("In serial, it took %lf seconds to prefix sum %d elements.\n", (serialend-serialstart), (int)serialdata.size());
   printf("In parallel, it took %lf seconds to prefix sum %d elements on %d nodes.\n\n", (pxend-pxstart), (int)pxdata.size(), omp_get_max_threads());
 }
